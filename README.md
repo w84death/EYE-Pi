@@ -3,7 +3,7 @@ A Raspberry Pi camera for Infrared Photography
 
 Photo gallery: https://p1x.smugmug.com/P1X/Raspberry-Pi/EYEPi-Camera
 
-I read this tutorial [[https://www.raspberrypi.org/learning/python-picamera-setup/worksheet.md]] and modyfy the code to my needs. Also I added LED so I know when the camera is ready and making photo.
+I read [this tutorial](https://www.raspberrypi.org/learning/python-picamera-setup/worksheet.md) and modyfy the code to my needs. Also I added LED so I know when the camera is ready and making photo.
 
 # Setup
 
@@ -43,7 +43,7 @@ I just use google/stackoverflow and finally get it to work. But it was chaotic a
 
 ## Make photos
 
-- run the raspberry and wait 20-30 sec to boot. 
+- run the raspberry and wait 20-30 sec to boot.
 - when the LED turns OFF this mean that camera script loaded and it's ready to shoot
 - push the button :)
 - LED on means that camera is making a photo and saving file
@@ -62,3 +62,11 @@ DO NOT EVER TURN OFF THE RASPBERRY AFTER MAKING A PHOTO! YOU WILL LOSE LAST PHOT
 - download photos on the go, or..
 - turn off the camera after ~minute of idle
 - TODO: add a button to power off the machine using "shutdown -h now"
+
+
+# Useful links
+
+- [Python tutorial](https://www.raspberrypi.org/learning/python-picamera-setup/worksheet.md)
+- [Python API docs](https://picamera.readthedocs.org/en/release-1.10/api_camera.html)
+
+
