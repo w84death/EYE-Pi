@@ -1,6 +1,8 @@
 # EYE-Pi
 A Raspberry Pi camera for Infrared Photography
 
+Photo gallery: https://p1x.smugmug.com/P1X/Raspberry-Pi/EYEPi-Camera
+
 I read this tutorial [[https://www.raspberrypi.org/learning/python-picamera-setup/worksheet.md]] and modyfy the code to my needs. Also I added LED so I know when the camera is ready and making photo.
 
 # Setup
