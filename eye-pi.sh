@@ -11,11 +11,10 @@ GPIO.output(4,False)
 with picamera.PiCamera() as camera:
 
 	camera.resolution = (2592, 1944)
-	camera.exif_tags['IFD0.Copyright'] = 'Eye-Pi Camera by P1X'
+	camera.exif_tags['IFD0.Copyright'] = 'EYE-Pi Camera by P1X'
 	camera.sharpness = 50
-	camera.exposure_mode = 'night'
-	camera.drc_strength = 'high'
-	camera.annotate_text = 'Eye-Pi Camera by P1X'
+	camera.exposure_mode = 'antishake'
+	camera.annotate_text = 'EYE-Pi Camera by P1X'
 	while True:
 		GPIO.wait_for_edge(17, GPIO.FALLING)
 		GPIO.output(4, True)
