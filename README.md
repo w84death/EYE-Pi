@@ -61,7 +61,7 @@ DO NOT EVER TURN OFF THE RASPBERRY AFTER MAKING A PHOTO! YOU WILL LOSE LAST PHOT
 
 - download photos on the go, or..
 - turn off the camera after ~minute of idle
-- TODO: add a button to power off the machine using "shutdown -h now"
+- TODO: add a [button to power off the machine](http://www.recantha.co.uk/blog/?p=13999)
 
 
 # Useful links
