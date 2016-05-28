@@ -45,7 +45,7 @@ disp.display()
 width = disp.width
 height = disp.height
 img2oled = Image.new('1', (width, height))
-draw = ImageDraw.Draw(image)
+#draw = ImageDraw.Draw(img2oled)
 
 # Init events
 GPIO.add_event_detect(PIN_BUTTON_A, GPIO.FALLING)
@@ -59,6 +59,8 @@ def killpi():
     output = process.communicate()[0]
     print output
 
+refresh = 1/2
+last_t = time.time()
 
 # Run camera module
 with picamera.PiCamera() as camera:
@@ -88,10 +90,12 @@ with picamera.PiCamera() as camera:
 			camera_loop = False
 			killpi() #SYSTEM SHUTDOWN
 
-		camera.resolution = (640, 480)
-		camera.capture('oled.jpg')
-		img_tmp = Image.open('oled.jpg')
-		img_small = img_tmp.resize((64,48), Image.BICUBIC).convert("1")
-		draw.paste(img_small, (0,0))
-		disp.image(img2oled)
-		disp.display()
+		if time.time() - last_t > refresh:
+			camera.resolution = (640, 480)
+			camera.capture('oled.jpg')
+			img_tmp = Image.open('oled.jpg')
+			img_small = img_tmp.resize((85,64), Image.BICUBIC).convert("1")
+			img2oled.paste(img_small, (0,0))
+			disp.image(img2oled)
+			disp.display()
+			last_t = time.time()
