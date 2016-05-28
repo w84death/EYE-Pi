@@ -1,5 +1,4 @@
 import time
-
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 
@@ -7,9 +6,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-RST = 24
-
-disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, i2c_address=0x3D)
+disp = Adafruit_SSD1306.SSD1306_128_64(rst=24, i2c_address=0x3D)
 disp.begin()
 
 disp.clear()
