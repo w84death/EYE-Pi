@@ -55,7 +55,7 @@ with picamera.PiCamera() as camera:
 
 	# ready to shoot
 	while camera_loop:
-		if GPIO.event_detected(PIN_BUTTON_A) and !busy:
+		if GPIO.event_detected(PIN_BUTTON_A) and not busy:
 			busy = True
 			GPIO.output(PIN_LED, True)
 			ticks = time.time()
