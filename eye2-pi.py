@@ -67,7 +67,7 @@ def refresh_oled(camera):
 	img_tmp = Image.open('oled.jpg')
 	img_small = img_tmp.resize((85,64), Image.NEAREST).convert("1")
 	img2oled.paste(img_small, (0,0))
-	draw.polygon([(86,0), (128,0), (128,64), (86,0)], fill=0)
+	draw.polygon([(86,0), (128,0), (128,64), (86,64), (86,0)], fill=000)
 	draw.text((88, 0), 'EYE-Pi',  font=font, fill=255)
 	draw.text((88, 10), 'ISO:',  font=font, fill=255)
 	draw.text((88, 20), '1234',  font=font, fill=255)
@@ -110,8 +110,8 @@ with picamera.PiCamera() as camera:
 	while camera_loop:
 
 		if GPIO.event_detected(PIN_BUTTON_A) and not busy:
-			draw.polygon([(0,0), (128,0), (128,64), (0,0)], fill=255)
-			draw.text((88, 32), 'SNAP!',  font=font, fill=000)
+			draw.polygon([(0,0), (128,0), (128,64), (0,64), (0,0)], fill=255)
+			draw.text((54, 32), 'SNAP!',  font=font, fill=000)
 			disp.image(img2oled)
 			disp.display()
 			make_photo(camera)
@@ -122,8 +122,8 @@ with picamera.PiCamera() as camera:
 			GPIO.remove_event_detect(PIN_BUTTON_A)
 
 			disp.clear()
-			draw.polygon([(0,0), (128,0), (128,64), (0,0)], fill=255)
-			draw.text((88, 32), 'BYE!',  font=font, fill=000)
+			draw.polygon([(0,0), (128,0), (128,64), (0,64), (0,0)], fill=255)
+			draw.text((58, 32), 'BYE!',  font=font, fill=000)
 			disp.image(img2oled)
 			disp.display()
 
