@@ -18,8 +18,8 @@ I read [this tutorial](https://www.raspberrypi.org/learning/python-picamera-setu
 ## Wires
 
 - connect camera module to the camera slot (google how to proberly put the cable in!)
-- connect button to the pin 17 and any ground
-- connect LED (with resistor!) to the pin 4 and any ground
+- connect button to the GPIO 17 (pin11) and any ground (pin9)
+- connect LED (with resistor!) to the GPIO 4 (pin7) and any ground (pin6)
 
 ## Linux Enviroment
 
