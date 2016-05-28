@@ -57,7 +57,7 @@ def killpi():
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]
     print output
-
+	
 
 # Run camera module
 with picamera.PiCamera() as camera:
@@ -90,7 +90,7 @@ with picamera.PiCamera() as camera:
 		camera.resolution = (640, 480)
 		camera.capture('oled.jpg')
 		image = Image.open('oled.jpg')
-		image_small = image.resize((width,height), Image.BICUBIC)
+		image_small = image.resize((64,48), Image.BICUBIC)
 		image_oled = image_small.convert("1")
 		disp.image(image_oled)
 		disp.display()
