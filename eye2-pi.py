@@ -45,7 +45,7 @@ disp.display()
 width = disp.width
 height = disp.height
 img2oled = Image.new('1', (width, height))
-draw = ImageDraw.Draw(image_oled)
+draw = ImageDraw.Draw(img2oled)
 font = ImageFont.load_default()
 refresh = 1/2
 last_t = time.time()
@@ -63,6 +63,12 @@ def killpi():
     output = process.communicate()[0]
     print output
 
+def welcome():
+	disp.clear()
+	draw.text((32, 32), 'P1X',  font=font, fill=255)
+	disp.image(img2oled)
+	disp.display()
+
 def refresh_oled(camera):
 	camera.capture('oled.jpg')
 	img_tmp = Image.open('oled.jpg')
@@ -70,6 +76,9 @@ def refresh_oled(camera):
 	img2oled.paste(img_small, (0,0))
 	draw.text((86, 0), 'EYE-Pi',  font=font, fill=255)
 	draw.text((86, 10), 'ISO:',  font=font, fill=255)
+	draw.text((86, 20), '1234',  font=font, fill=255)
+	draw.text((86, 30), 'EXP:',  font=font, fill=255)
+	draw.text((86, 40), '1/128',  font=font, fill=255)
 	disp.image(img2oled)
 	disp.display()
 	last_t = time.time()
@@ -94,7 +103,7 @@ with picamera.PiCamera() as camera:
 	camera.exposure_mode = 'antishake'
 	camera.annotate_text = 'EYE-Pi Camera by P1X'
 
-	refresh_oled(camera)
+	welcome()
 
 	# ready to shoot
 	while camera_loop:
