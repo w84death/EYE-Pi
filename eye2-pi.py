@@ -45,7 +45,11 @@ disp.display()
 width = disp.width
 height = disp.height
 img2oled = Image.new('1', (width, height))
-#draw = ImageDraw.Draw(img2oled)
+draw = ImageDraw.Draw(image_oled)
+font = ImageFont.load_default()
+refresh = 1/2
+last_t = time.time()
+
 
 # Init events
 GPIO.add_event_detect(PIN_BUTTON_A, GPIO.FALLING)
@@ -59,43 +63,61 @@ def killpi():
     output = process.communicate()[0]
     print output
 
-refresh = 1/2
-last_t = time.time()
+def refresh_oled(camera):
+	camera.capture('oled.jpg')
+	img_tmp = Image.open('oled.jpg')
+	img_small = img_tmp.resize((85,64), Image.NEAREST).convert("1")
+	img2oled.paste(img_small, (0,0))
+	draw.text((86, 0), 'EYE-Pi',  font=font, fill=255)
+	draw.text((86, 10), 'ISO:',  font=font, fill=255)
+	disp.image(img2oled)
+	disp.display()
+	last_t = time.time()
+
+def make_photo(camera):
+	busy = True
+	GPIO.output(PIN_LED, True)
+	camera.resolution = (2592, 1944)
+	ticks = time.time()
+	camera.capture('/media/usb/eyepi-%03d.jpg' % ticks)
+	camera.resolution = (640, 480)
+	GPIO.output(PIN_LED, False)
+	busy = False
 
 # Run camera module
 with picamera.PiCamera() as camera:
 
 	# setup camera
-	camera.resolution = (2592, 1944) # max for 5MPix module
+	camera.resolution = (640, 480)
  	camera.exif_tags['IFD0.Copyright'] = 'EYE-Pi Camera by P1X'
 	camera.sharpness = 50
 	camera.exposure_mode = 'antishake'
 	camera.annotate_text = 'EYE-Pi Camera by P1X'
 
+	refresh_oled(camera)
+
 	# ready to shoot
 	while camera_loop:
+
 		if GPIO.event_detected(PIN_BUTTON_A) and not busy:
-			busy = True
-			GPIO.output(PIN_LED, True)
-			camera.resolution = (2592, 1944)
-			ticks = time.time()
-			camera.capture('/media/usb/eyepi-%03d.jpg' % ticks)
-			GPIO.output(PIN_LED, False)
-			busy = False
+			disp.clear()
+			draw.text((86, 32), 'SNAP!',  font=font, fill=255)
+			disp.image(img2oled)
+			disp.display()
+			make_photo(camera)
+
 		if GPIO.event_detected(PIN_BUTTON_POWER):
 			busy = True
 			GPIO.output(PIN_LED, True)
 			GPIO.remove_event_detect(PIN_BUTTON_A)
-			#GPIO.cleanup()
+
+			disp.clear()
+			draw.text((86, 32), 'BYE!',  font=font, fill=255)
+			disp.image(img2oled)
+			disp.display()
+
 			camera_loop = False
 			killpi() #SYSTEM SHUTDOWN
 
 		if time.time() - last_t > refresh:
-			camera.resolution = (640, 480)
-			camera.capture('oled.jpg')
-			img_tmp = Image.open('oled.jpg')
-			img_small = img_tmp.resize((85,64), Image.BICUBIC).convert("1")
-			img2oled.paste(img_small, (0,0))
-			disp.image(img2oled)
-			disp.display()
-			last_t = time.time()
+			refresh_oled(camera)
