@@ -67,7 +67,7 @@ def refresh_oled(camera):
 	img_tmp = Image.open('oled.jpg')
 	img_small = img_tmp.resize((85,64), Image.NEAREST).convert("1")
 	img2oled.paste(img_small, (0,0))
-	draw.polygon([(0,0), (128,0), (128,64), (0,64), (0,0)], fill=000)
+	draw.polygon([(85,0), (128,0), (128,64), (85,64), (85,0)], fill=000)
 	draw.text((88, 0), 'EYE-Pi',  font=font, fill=255)
 	draw.text((88, 10), 'ISO:',  font=font, fill=255)
 	draw.text((88, 20), '1234',  font=font, fill=255)
