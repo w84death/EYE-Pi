@@ -67,12 +67,11 @@ def refresh_oled(camera):
 	img_small = img_tmp.resize((85,64), Image.NEAREST).convert("1")
 	img2oled.paste(img_small, (0,0))
 
-	draw.rectangle((85,0,(128-85),64), outline=0, fill=000)
-	#draw.polygon([(85,0), (128,0), (128,64), (85,64), (85,0)], fill=000)
+	draw.rectangle((85,0,43,64), outline=0, fill=000)
 
 	draw.text((88, 0), 'EYE-Pi',  font=font, fill=255)
 	draw.text((88, 10), 'ISO:',  font=font, fill=255)
-	draw.text((88, 20), str(camera.iso,  font=font, fill=255)
+	draw.text((88, 20), str(camera.iso),  font=font, fill=255)
 	draw.text((88, 36), 'EXP:',  font=font, fill=255)
 	draw.text((88, 46), str(camera.exposure_speed),  font=font, fill=255)
 	disp.image(img2oled)
@@ -88,7 +87,7 @@ def make_photo(camera):
 	GPIO.output(PIN_LED, False)
 
 def shout(message):
-	draw.rectangle((0,0,128,64), outline=0, fill=000)
+	draw.rectangle((0,0,128,64), outline=0, fill=255)
 	draw.text((54, 28), message,  font=font, fill=000)
 	disp.image(img2oled)
 	disp.display()
