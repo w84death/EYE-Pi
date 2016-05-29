@@ -69,11 +69,14 @@ def refresh_oled(camera):
 
 	draw.polygon([(85,0), (128,0), (128,64), (85,64), (85,0)], fill=000)
 
+	iso = 'AUTO' #str(camera.iso)
+	exp = str(camera.exposure_speed) + 'ms'
+
 	draw.text((88, 0), 'EYE-Pi',  font=font, fill=255)
-	draw.text((88, 10), 'ISO:',  font=font, fill=255)
-	draw.text((88, 20), str(camera.iso),  font=font, fill=255)
-	draw.text((88, 36), 'EXP:',  font=font, fill=255)
-	draw.text((88, 46), str(camera.exposure_speed),  font=font, fill=255)
+	draw.text((88, 15), 'ISO:',  font=font, fill=255)
+	draw.text((88, 25), iso',  font=font, fill=255)
+	draw.text((88, 40), 'EXP:',  font=font, fill=255)
+	draw.text((88, 50), exp,  font=font, fill=255)
 	disp.image(img2oled)
 	disp.display()
 	last_t = time.time()
