@@ -74,7 +74,7 @@ def refresh_oled(camera):
 
 	draw.text((88, 0), 'EYE-Pi',  font=font, fill=255)
 	draw.text((88, 15), 'ISO:',  font=font, fill=255)
-	draw.text((88, 25), iso',  font=font, fill=255)
+	draw.text((88, 25), iso,  font=font, fill=255)
 	draw.text((88, 40), 'EXP:',  font=font, fill=255)
 	draw.text((88, 50), exp,  font=font, fill=255)
 	disp.image(img2oled)
