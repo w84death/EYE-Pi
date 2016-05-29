@@ -50,7 +50,6 @@ font = ImageFont.load_default()
 refresh = 1/2
 last_t = time.time()
 
-
 # Init events
 GPIO.add_event_detect(PIN_BUTTON_A, GPIO.FALLING)
 GPIO.add_event_detect(PIN_BUTTON_POWER, GPIO.FALLING)
@@ -67,25 +66,32 @@ def refresh_oled(camera):
 	img_tmp = Image.open('oled.jpg')
 	img_small = img_tmp.resize((85,64), Image.NEAREST).convert("1")
 	img2oled.paste(img_small, (0,0))
-	draw.polygon([(85,0), (128,0), (128,64), (85,64), (85,0)], fill=000)
+
+	draw.rectangle((85,0,(128-85),64), outline=0, fill=000)
+	#draw.polygon([(85,0), (128,0), (128,64), (85,64), (85,0)], fill=000)
+
 	draw.text((88, 0), 'EYE-Pi',  font=font, fill=255)
 	draw.text((88, 10), 'ISO:',  font=font, fill=255)
-	draw.text((88, 20), '1234',  font=font, fill=255)
+	draw.text((88, 20), str(camera.iso()),  font=font, fill=255)
 	draw.text((88, 36), 'EXP:',  font=font, fill=255)
-	draw.text((88, 46), '1/128',  font=font, fill=255)
+	draw.text((88, 46), str(camera.exposure_speed()),  font=font, fill=255)
 	disp.image(img2oled)
 	disp.display()
 	last_t = time.time()
 
 def make_photo(camera):
-	busy = True
 	GPIO.output(PIN_LED, True)
 	camera.resolution = (2592, 1944)
 	ticks = time.time()
 	camera.capture('/media/usb/eyepi-%03d.jpg' % ticks)
 	camera.resolution = (640, 480)
 	GPIO.output(PIN_LED, False)
-	busy = False
+
+def shout(message):
+	draw.rectangle((0,0,128,64), outline=0, fill=000)
+	draw.text((54, 28), message,  font=font, fill=000)
+	disp.image(img2oled)
+	disp.display()
 
 def killpi():
     command = "/usr/bin/sudo /sbin/shutdown -h now"
@@ -110,23 +116,16 @@ with picamera.PiCamera() as camera:
 	while camera_loop:
 
 		if GPIO.event_detected(PIN_BUTTON_A) and not busy:
-			draw.polygon([(0,0), (128,0), (128,64), (0,64), (0,0)], fill=255)
-			draw.text((54, 28), 'SNAP!',  font=font, fill=000)
-			disp.image(img2oled)
-			disp.display()
+			busy = True
+			shout('SNAP!')
 			make_photo(camera)
+			busy = False
 
 		if GPIO.event_detected(PIN_BUTTON_POWER):
 			busy = True
 			GPIO.output(PIN_LED, True)
 			GPIO.remove_event_detect(PIN_BUTTON_A)
-
-			disp.clear()
-			draw.polygon([(0,0), (128,0), (128,64), (0,64), (0,0)], fill=255)
-			draw.text((58, 28), 'BYE!',  font=font, fill=000)
-			disp.image(img2oled)
-			disp.display()
-
+			shout('BYE!')
 			camera_loop = False
 			killpi() #SYSTEM SHUTDOWN
 
